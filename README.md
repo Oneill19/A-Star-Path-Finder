@@ -1,7 +1,7 @@
 # A Star Path Finder
 ##### A* Path Finder algorithm visualization made in python.
 
-A* algorithm is a BFS algorithm to find the optimal path from the start node to the goal node.
+A* algorithm is a search algorithm to find the optimal path from the start node to the goal node.
 This algorithm is an expansion of the Dijkstra algorithm.
 The algorithm uses a priority queue to choose the lowest f cost from all the node of every neighbour to continue the search.
 
