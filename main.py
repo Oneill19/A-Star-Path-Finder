@@ -25,6 +25,42 @@ WIN = pygame.display.set_mode((WIN_SIZE, WIN_SIZE))
 
 
 # =====================================================================================================================
+# upgraded priority queue
+# =====================================================================================================================
+
+
+# data structure that support add, empty, get, and in commands
+class UPQ:
+    # constructor
+    def __init__(self, start_node):
+        self.open_queue = PriorityQueue()
+        self.open_set = {start_node}
+
+
+    # add a node to the upgraded priority queue
+    def add(self, f_score, count, node):
+        self.open_queue.put((f_score, count, node))
+        self.open_set.add(node)
+
+
+    # check if the queue is empty
+    def empty(self):
+        return self.open_queue.empty()
+
+
+    # return the first node in the queue
+    def get(self):
+        return_node = self.open_queue.get()[2]
+        self.open_set.remove(return_node)
+        return return_node
+
+
+    # implement the in command
+    def __contains__(self, node):
+        return node in self.open_set
+
+
+# =====================================================================================================================
 # node class
 # =====================================================================================================================
 
@@ -263,7 +299,7 @@ def heuristic(first, second):
 
 
 # draw the path
-def reconstruct_path(came_from, node, grid):
+def reconstruct_path(came_from,node, grid):
     while node in came_from:
         node = came_from[node]
         if node != grid.get_start() and node != grid.get_goal():
@@ -276,19 +312,17 @@ def a_star(grid):
     count = 0  # variable for the priority queue, if couple nodes have the same f score
     start_node = grid.get_start()
     goal_node = grid.get_goal() 
-    open_nodes = PriorityQueue()  # priority queue to get the lowest f score node first
-    open_set = {start_node}  # set of nodes to check which node already opened
+    open_nodes = UPQ(start_node)  # priority queue to get the lowest f score node first
     came_from = {}  # dictionary to show the node and his parent
     start_node.set_g_score(0)  # set the start node g score
     start_node.set_f_score(heuristic(start_node.get_pos(), goal_node.get_pos()))  # set the start node f score
-    open_nodes.put((start_node.get_f_score(), count, start_node))  # add the start node to the queue
+    open_nodes.add(start_node.get_f_score(), count, start_node)  # add the start node to the queue
     while not open_nodes.empty():
         for event in pygame.event.get():  # option to quit the program during a session
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
-        current_node = open_nodes.get()[2]  # get the first node from the priority queue
-        open_set.remove(current_node)  # remove it from the open set
+        current_node = open_nodes.get()  # get the first node from the priority queue
         current_node.create_neighbours(grid.get_grid())  # create the neighbours of this node
         if current_node == goal_node:  # if the node is the goal node draw the path and return true
             reconstruct_path(came_from, goal_node, grid)
@@ -299,10 +333,9 @@ def a_star(grid):
                 came_from[neighbour] = current_node  # update the parent of the neighbour node
                 neighbour.set_g_score(tentative_g_score)  # set the g score of the neighbour
                 neighbour.set_f_score(tentative_g_score + heuristic(neighbour.get_pos(), goal_node.get_pos()))  # set the f score of the neigbour
-                if neighbour not in open_set:  # if the neigbour not opened yet
+                if neighbour not in open_nodes:  # if the neigbour not opened yet
                     count += 1
-                    open_nodes.put((neighbour.get_f_score(), count, neighbour))  # add it to the queue
-                    open_set.add(neighbour)  # add it to the open set
+                    open_nodes.add(neighbour.get_f_score(), count, neighbour)  # add it to the queue
                     grid.set_open(neighbour)  # set the neighbour color to open
         grid.draw()  # update the grid on the window
         if current_node != start_node:  # after checking the neighbours close the current node and move to the next lowest f score node
