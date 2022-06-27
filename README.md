@@ -5,10 +5,10 @@ A* algorithm is a search algorithm to find the optimal path from the start node 
 This algorithm is an expansion of the Dijkstra algorithm.
 The algorithm uses a priority queue to choose the lowest f cost from all the node of every neighbour to continue the search.
 
-Assume ```n``` is the current node.  
-The f cost is calculated by: ```f(n) = g(n) + h(n)```
-- ```g(n)``` is the distance between the start node and n.
-- ```h(n)``` is the heuristic function that calculates the distance between n and the goal node.
+Assume $n$ is the current node.  
+The $f$ cost is calculated by: $$f(n) = g(n) + h(n)$$
+- $g(n)$ is the distance between the start node and n.
+- $h(n)$ is the heuristic function that calculates the distance between n and the goal node.
 
 The code use the pygame library to visualize the steps of the algorithm and show the opening and closing node process until finding the goal node.
 After finiding the goal node, the program draw the optimal path between the start node and the goal node.
