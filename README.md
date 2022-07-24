@@ -1,9 +1,14 @@
-# A Star Path Finder
+<h1 align="center">A Star Path Finder</h1>
+
+<p align="center" width="100%">
+    <a href="#"><img align="center" src="https://user-images.githubusercontent.com/66797449/179539903-049b7468-ca94-4485-93ee-c17a70032acb.svg" title="Python" width="70" height="60"/></a>
+</p>
+
 ### A* Path Finder algorithm visualization made in python.
 
 A* algorithm is a search algorithm to find the optimal path from the start node to the goal node.
 This algorithm is an expansion of the Dijkstra algorithm.
-The algorithm uses a priority queue to choose the lowest f cost from all the node of every neighbour to continue the search.
+The algorithm uses a priority queue to choose the lowest $f$ cost from all the node of every neighbour to continue the search.
 
 Assume $n$ is the current node.  
 The $f$ cost is calculated by: $$f(n) = g(n) + h(n)$$
